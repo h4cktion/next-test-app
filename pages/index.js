@@ -1,14 +1,37 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import Link from 'next/link';
-import Card from '../components/card';
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
+import Link from "next/link";
+import Card from "../components/card";
 
 export default function Home() {
+  const tasks = [
+    {
+      id: 1,
+      title: "show cards",
+      description: "",
+      owners: [],
+      priorityColor: "",
+    },
+    {
+      id: 2,
+      title: "create new cards",
+      description: "",
+      owners: [{ id: 1, name: "Wandolski", firstName: "Matthieu", color:'' }],
+      priorityColor: "",
+    },
+  ];
 
-  const taches = {
-    title: 'create multiple cards'
-  };
+  const addNewTask = (title) => {
+    const newTask = {
+        id: tasks.length+1,
+        title,
+        description: "",
+        owners: [],
+        priorityColor: "",
+      };
+    tasks.push(newTask);
+  }
 
   return (
     <div className="h-screen w-full bg-bgBlue">
@@ -18,12 +41,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="p-5 flex gap-5" >
-
-      <Card title='TODO' taches={taches}/>
-       <div className='w-1/5 bg-blue-400 rounded h-10 px-3 flex items-center hover:bg-blue-300 text-white'>+ Ajouter une liste</div>
+      <main className="p-5 flex gap-5">
+        <Card title="TODO" tasks={tasks} addNewTask={addNewTask}/>
+        <div className="w-1/5 bg-blue-400 rounded h-10 px-3 flex items-center hover:bg-blue-300 text-white">
+          + Ajouter une liste
+        </div>
       </main>
-
     </div>
-  )
+  );
 }
