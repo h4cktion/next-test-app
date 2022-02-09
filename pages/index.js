@@ -1,37 +1,13 @@
 import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import Link from "next/link";
+// import Image from "next/image";
+// import styles from "../styles/Home.module.css";
+// import Link from "next/link";
 import Card from "../components/card";
+import { useSelector } from 'react-redux';
+import CardContent from "../components/CardContent";
 
 export default function Home() {
-  const tasks = [
-    {
-      id: 1,
-      title: "show cards",
-      description: "",
-      owners: [],
-      priorityColor: "",
-    },
-    {
-      id: 2,
-      title: "create new cards",
-      description: "",
-      owners: [{ id: 1, name: "Wandolski", firstName: "Matthieu", color:'' }],
-      priorityColor: "",
-    },
-  ];
-
-  const addNewTask = (title) => {
-    const newTask = {
-        id: tasks.length+1,
-        title,
-        description: "",
-        owners: [],
-        priorityColor: "",
-      };
-    tasks.push(newTask);
-  }
+  const {tasks, idTaskDetail} = useSelector((state) => state.app);
 
   return (
     <div className="h-screen w-full bg-bgBlue">
@@ -42,11 +18,14 @@ export default function Home() {
       </Head>
 
       <main className="p-5 flex gap-5">
-        <Card title="TODO" tasks={tasks} addNewTask={addNewTask}/>
+        <Card title="TODO" tasks={tasks} />
         <div className="w-1/5 bg-blue-400 rounded h-10 px-3 flex items-center hover:bg-blue-300 text-white">
           + Ajouter une liste
         </div>
       </main>
+      {idTaskDetail &&
+        <CardContent />
+      }
     </div>
   );
 }
