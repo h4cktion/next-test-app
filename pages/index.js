@@ -34,7 +34,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="p-5 flex gap-5">
+      <main className="p-5 flex gap-5 items-start">
         {cards.map(card => 
           <Card key={card.id} title="TODO" card={card} />
         )}
