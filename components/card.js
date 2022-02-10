@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { addTask } from "../actions";
+import { useDispatch, useSelector } from "react-redux";
+import { addTask, updateCardTitle } from "../actions";
 import Tile from "./tile";
 
-export default function Card({ title, tasks, addNewTask }) {
+export default function Card({ card }) {
+  const { title, id } = card;
+  const { tasks } = useSelector(state => state.app);
   const [showInput, setShowInput] = useState(false);
   const dispatch = useDispatch();
   const {
@@ -19,16 +21,22 @@ export default function Card({ title, tasks, addNewTask }) {
     reset();
   };
 
+  const changeCardTitle = (e) => {
+    const {value} = e.target;
+    dispatch(updateCardTitle(id, value));
+  };
+
   return (
     <div className="w-1/5 bg-gray-200 p-2 rounded">
       <h2 className="mb-3">
-        <input type='textarea' defaultValue={title} className='bg-gray-200 rounded w-full focus:bg-gray-50'/>
+        <input type='textarea' defaultValue={title} onChange={changeCardTitle} className='bg-gray-200 rounded w-full focus:bg-gray-50'/>
       </h2>
       <div className="w-full">
         <div className="">
-          {tasks.map((task) => (
-            <Tile task={task} key={task.id} />
-          ))}
+          {tasks.map((task) => {
+            if (task.cardID === id) return <Tile task={task} key={task.id} />
+            return null;
+          })}
         </div>
         {showInput && (
           <form onSubmit={handleSubmit(onSubmit)}>

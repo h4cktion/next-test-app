@@ -2,6 +2,5 @@
 import clientPromise from '../../utils/mongodbConnect';
 
 export default function handler(req, res) {
-  console.log('first');
   res.status(200).json({ name: 'John Doe' })
 }

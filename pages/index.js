@@ -3,11 +3,27 @@ import Head from "next/head";
 // import styles from "../styles/Home.module.css";
 // import Link from "next/link";
 import Card from "../components/card";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import CardContent from "../components/CardContent";
+import { useState } from "react";
+import { addCard } from "../actions";
+import { useForm } from "react-hook-form";
 
 export default function Home() {
-  const {tasks, idTaskDetail} = useSelector((state) => state.app);
+  const [showInput, setShowInput] = useState(false);
+  const { idTaskDetail, cards} = useSelector((state) => state.app);
+  const dispatch = useDispatch();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = ({newCard}) => {
+    dispatch(addCard(newCard));
+    reset();
+  };
 
   return (
     <div className="h-screen w-full bg-bgBlue">
@@ -18,10 +34,29 @@ export default function Home() {
       </Head>
 
       <main className="p-5 flex gap-5">
-        <Card title="TODO" tasks={tasks} />
-        <div className="w-1/5 bg-blue-400 rounded h-10 px-3 flex items-center hover:bg-blue-300 text-white">
-          + Ajouter une liste
-        </div>
+        {cards.map(card => 
+          <Card key={card.id} title="TODO" card={card} />
+        )}
+          {showInput && (
+          <form onSubmit={handleSubmit(onSubmit)} className='w-1/5 bg-gray-200 p-2 rounded'>
+            <input
+              type="textarea"
+              autoFocus
+              {...register("newCard", { required: true })}
+              className="bg-gray-50 rounded w-full p-2"
+            />
+            <input type="submit" value='Ajouter une liste' className="p-2 bg-sky-700 hover:bg-sky-800 rounded mt-2 text-white text-sm"/>
+            <span className="text-bold mx-4 text-xl cursor-pointer" onClick={() => setShowInput(false)}>X</span>
+          </form>
+        )}
+        {!showInput && (
+          <span
+            className="w-1/5 bg-blue-400 rounded h-10 px-3 flex items-center hover:bg-blue-300 text-white"
+            onClick={() => setShowInput(true)}
+          >
+            + Ajouter une liste
+          </span>
+        )}
       </main>
       {idTaskDetail &&
         <CardContent />
