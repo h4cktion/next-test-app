@@ -3,6 +3,7 @@ import {
   ADD_CARD,
   ADD_TASK,
   SET_CARD_DETAIL,
+  SET_SNACK_MESSAGE,
   UPDATE_CARD_TITLE,
   UPDATE_TASK,
 } from "./types";
@@ -32,6 +33,8 @@ const initialState = {
       priorityColor: "",
     },
   ],
+  snackMessage: { message: null },
+  animation: "",
 };
 
 const trelloReducer = (state = initialState, { type, payload }) => {
@@ -59,9 +62,14 @@ const trelloReducer = (state = initialState, { type, payload }) => {
     case UPDATE_TASK:
       const { task: updatedTask } = payload;
       const updatedTasks = [...state.tasks];
-      const indexTask = state.tasks.findIndex(t => t.id === updatedTask.id);
+      const indexTask = state.tasks.findIndex((t) => t.id === updatedTask.id);
       updatedTasks[indexTask] = updatedTask;
       return (state = { ...state, tasks: updatedTasks });
+    case SET_SNACK_MESSAGE:
+      return {
+        ...state,
+        snackMessage: { message: payload.message },
+      };
     default:
       return state;
   }

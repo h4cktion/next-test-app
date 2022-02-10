@@ -8,6 +8,7 @@ import CardContent from "../components/CardContent";
 import { useState } from "react";
 import { addCard } from "../actions";
 import { useForm } from "react-hook-form";
+import SnackBar from "../components/SnackBar";
 
 export default function Home() {
   const [showInput, setShowInput] = useState(false);
@@ -61,6 +62,7 @@ export default function Home() {
       {idTaskDetail &&
         <CardContent />
       }
+      <SnackBar />
     </div>
   );
 }

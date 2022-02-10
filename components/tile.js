@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setIdTaskDetail } from "../actions";
+import { SET_SNACK_MESSAGE } from "../types";
 
 function Tile({ task }) {
   const dispatch = useDispatch();
@@ -19,6 +20,18 @@ function Tile({ task }) {
 
   const showOptions = (e) => {
     e.stopPropagation();
+    dispatch({
+      type: SET_SNACK_MESSAGE,
+      payload: {message: 'Pas encore implémenté ;-)'}
+    })
+  };
+
+  const showUserDetails = (e) => {
+    e.stopPropagation();
+    dispatch({
+      type: SET_SNACK_MESSAGE,
+      payload: {message: 'Pas encore implémenté ;-)'}
+    })
   };
 
   return (
@@ -50,7 +63,8 @@ function Tile({ task }) {
         {owners.map((owner) => (
           <div
             key={owner.id}
-            className="rounded-full bg-blue-400 h-8 w-8 flex items-center justify-center text-bold text-xs"
+            className="rounded-full bg-blue-400 h-8 w-8 flex items-center justify-center text-bold text-xs hover:bg-blue-500"
+            onClick={showUserDetails}
           >
             {getUserInfo(owner.id)}
           </div>
