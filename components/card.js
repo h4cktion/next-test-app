@@ -17,7 +17,7 @@ export default function Card({ card }) {
   } = useForm();
 
   const onSubmit = ({newTask}) => {
-    dispatch(addTask(newTask));
+    dispatch(addTask(newTask, id));
     reset();
   };
 

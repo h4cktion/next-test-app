@@ -6,10 +6,10 @@ export const addCard = (title) => (dispatch) =>
     payload: { title },
   });
 
-export const addTask = (task) => (dispatch) =>
+export const addTask = (task, cardID) => (dispatch) =>
   dispatch({
     type: ADD_TASK,
-    payload: { task },
+    payload: { task, cardID },
 });
 
 export const updateTask = (task) => (dispatch) =>

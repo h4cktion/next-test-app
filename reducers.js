@@ -40,7 +40,9 @@ const initialState = {
 const trelloReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case ADD_CARD:
-      return (state = { ...state, cards: [...state.cards, payload] });
+      const { title } = payload; 
+      const newCardId = uuidv4();
+      return (state = { ...state, cards: [...state.cards, {id: newCardId, title}] });
     case SET_CARD_DETAIL:
       return (state = { ...state, idTaskDetail: payload.id });
     case UPDATE_CARD_TITLE:
@@ -50,9 +52,10 @@ const trelloReducer = (state = initialState, { type, payload }) => {
       updatedCards[index].title = value;
       return (state = { ...state, cards: updatedCards });
     case ADD_TASK:
-      const { task } = payload;
+      const { task, cardID } = payload;
       const newTask = {
         id: uuidv4(),
+        cardID,
         title: task,
         description: "",
         owners: [],
